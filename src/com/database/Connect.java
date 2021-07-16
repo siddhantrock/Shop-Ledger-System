@@ -34,5 +34,32 @@ public class Connect
             Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
+    public ResultSet[] addRecordToLedger(String month,String year)
+    {
+        ResultSet rs1 = null,rs2 = null;
+        ResultSet rs[] = new ResultSet[2];
+        
+        try 
+        {
+            rs1 = st.executeQuery("select * from table1 where (type = 'silver' or type = 'gold' or type = 'both') and date1 like '" + month + "/*/" + year + "' order by date1");
+        }
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        try 
+        {
+            rs2 = st.executeQuery("select * from table2 where (type = 'silver' or type = 'gold' or type = 'both') and date1 like '" + month + "/*/" + year + "' order by date1");
+        }
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        rs[0] = rs1;
+        rs[1] = rs2;
+        return rs;
+    }
 }

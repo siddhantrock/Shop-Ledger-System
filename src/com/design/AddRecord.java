@@ -1,6 +1,11 @@
 package com.design;
 
 import com.database.Connect;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class AddRecord extends javax.swing.JFrame 
 {
@@ -16,9 +21,11 @@ public class AddRecord extends javax.swing.JFrame
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        submit_btn = new javax.swing.JButton();
         home_btn = new javax.swing.JButton();
+        month_txt = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        year_txt = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(AddRecord.MAXIMIZED_BOTH);
@@ -28,11 +35,14 @@ public class AddRecord extends javax.swing.JFrame
             }
         });
 
-        jLabel1.setText("select choice");
+        jLabel1.setText("select month and year");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Yearly", "Monthly" }));
-
-        jButton1.setText("Submit");
+        submit_btn.setText("Submit");
+        submit_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submit_btnActionPerformed(evt);
+            }
+        });
 
         home_btn.setText("Home");
         home_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -41,23 +51,29 @@ public class AddRecord extends javax.swing.JFrame
             }
         });
 
+        jLabel2.setText("/");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(339, 339, 339)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(400, 400, 400)
-                        .addComponent(jButton1)
+                        .addComponent(submit_btn)
                         .addGap(112, 112, 112)
-                        .addComponent(home_btn))
+                        .addComponent(home_btn)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(340, 340, 340)
                         .addComponent(jLabel1)
-                        .addGap(168, 168, 168)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(436, Short.MAX_VALUE))
+                        .addGap(115, 115, 115)
+                        .addComponent(month_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(year_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(425, 425, 425))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -65,10 +81,12 @@ public class AddRecord extends javax.swing.JFrame
                 .addGap(157, 157, 157)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(month_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(year_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(132, 132, 132)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(submit_btn)
                     .addComponent(home_btn))
                 .addContainerGap(153, Short.MAX_VALUE))
         );
@@ -101,6 +119,47 @@ public class AddRecord extends javax.swing.JFrame
         }).start();
         
     }//GEN-LAST:event_home_btnActionPerformed
+
+    private void submit_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_btnActionPerformed
+
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                String month,year;
+                ResultSet rs[],rs1,rs2;
+                
+                month = month_txt.getText();
+                year = year_txt.getText();
+                
+                rs = connect.addRecordToLedger(month, year);
+                rs1 = rs[0];
+                rs2 = rs[1];
+                
+                try 
+                {
+                    if(rs1.next() || rs2.next())
+                    {
+                        
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(AddRecord.this, "No record found");
+                    }
+                }
+                catch (SQLException ex) 
+                {
+                    Logger.getLogger(AddRecord.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                DisplayRecord dr = new DisplayRecord();
+                dr.setVisible(true);
+                dr.setResultSet(rs, connect);
+                dispose();
+            }
+        }).start();
+        
+    }//GEN-LAST:event_submit_btnActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -136,8 +195,10 @@ public class AddRecord extends javax.swing.JFrame
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton home_btn;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JTextField month_txt;
+    private javax.swing.JButton submit_btn;
+    private javax.swing.JTextField year_txt;
     // End of variables declaration//GEN-END:variables
 }

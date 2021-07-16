@@ -50,6 +50,31 @@ public class Thing
         this.date3 = date3;
     }
 
+    public Thing(int id, String name, String f_name, String address, String city, int zip, String thing, String type, int n_gold, int n_silver, int n_total, int interest, String phone_no, String date1, int g_gold, int g_silver, int rupess, int invest, String date2, String description) {
+        this.id = id;
+        this.name = name;
+        this.f_name = f_name;
+        this.address = address;
+        this.city = city;
+        this.zip = zip;
+        this.thing = thing;
+        this.type = type;
+        this.n_gold = n_gold;
+        this.n_silver = n_silver;
+        this.n_total = n_total;
+        this.interest = interest;
+        this.phone_no = phone_no;
+        this.date1 = date1;
+        this.g_gold = g_gold;
+        this.g_silver = g_silver;
+        this.rupess = rupess;
+        this.invest = invest;
+        this.date2 = date2;
+        this.description = description;
+    }
+
+    
+    
     public int getId() {
         return id;
     }
