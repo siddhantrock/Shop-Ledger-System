@@ -11,21 +11,75 @@ public class Home extends javax.swing.JFrame
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        putting_record_btn = new javax.swing.JButton();
+        releasing_record_btn = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setExtendedState(Home.MAXIMIZED_BOTH);
+
+        putting_record_btn.setText("Puting record in ledger account");
+        putting_record_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                putting_record_btnActionPerformed(evt);
+            }
+        });
+
+        releasing_record_btn.setText("releasing record from ledger account");
+        releasing_record_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                releasing_record_btnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(331, 331, 331)
+                .addComponent(putting_record_btn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
+                .addComponent(releasing_record_btn)
+                .addGap(241, 241, 241))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(225, 225, 225)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(putting_record_btn)
+                    .addComponent(releasing_record_btn))
+                .addContainerGap(290, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void putting_record_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_putting_record_btnActionPerformed
+
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                new AddRecord().setVisible(true);
+                dispose();
+            }
+        }).start();
+        
+    }//GEN-LAST:event_putting_record_btnActionPerformed
+
+    private void releasing_record_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_releasing_record_btnActionPerformed
+
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                new ReleaseRecord().setVisible(true);
+                dispose();
+            }
+        }).start();
+        
+    }//GEN-LAST:event_releasing_record_btnActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -60,5 +114,7 @@ public class Home extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton putting_record_btn;
+    private javax.swing.JButton releasing_record_btn;
     // End of variables declaration//GEN-END:variables
 }
