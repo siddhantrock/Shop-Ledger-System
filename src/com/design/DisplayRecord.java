@@ -6,7 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,8 +19,8 @@ public class DisplayRecord extends javax.swing.JFrame
 {
     private ResultSet rs[],rs1,rs2;
     private Connect connect;
-    private ArrayList days;
-    private ArrayList offdays;
+    private ArrayList<Integer> days;
+    private ArrayList<Integer> offdays;
     private boolean rs1_flag;
     private boolean rs2_flag;
     
@@ -119,6 +122,12 @@ public class DisplayRecord extends javax.swing.JFrame
             public void run()
             {
                 List <Thing> al = new ArrayList();
+                int spent_id = -1;
+                boolean off_days_match = false;
+                boolean days_match = false;
+                boolean spent_match = false;
+                Set<Integer> spent_set = new HashSet();
+                
                 try 
                 {
                     do
@@ -126,13 +135,75 @@ public class DisplayRecord extends javax.swing.JFrame
                         if(rs1_flag == true)
                         {    
                             rs1_flag = false;
-                                
-                            Thing thing = new Thing(rs1.getInt("id"),rs1.getString("name1"),rs1.getString("f_name"),rs1.getString("address")
-                            ,rs1.getString("city"),rs1.getInt("zip"),rs1.getString("thing"),rs1.getString("type"),rs1.getInt("n_gold"),rs1.getInt("n_silver")
-                            ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("n_gold")
-                            ,rs1.getInt("n_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"));
-                            al.add(thing);
+                            
+                            if(!offdays.isEmpty())
+                            {
+                                for (Integer offday : offdays) 
+                                {
+                                    if(new Date(rs1.getString("date1")).getDay() == offday)
+                                    {
+                                        off_days_match = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if(off_days_match == false && !days.isEmpty())
+                            {
+                                for (Integer day : days) 
+                                {
+                                    if(new Date(rs1.getString("date1")).getDate() == day)
+                                    {
+                                        days_match = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if(off_days_match == false && days_match == false)
+                            {
+                                Thing thing = new Thing(rs1.getInt("id"),rs1.getString("name1"),rs1.getString("f_name"),rs1.getString("address")
+                                ,rs1.getString("city"),rs1.getInt("zip"),rs1.getString("thing"),rs1.getString("type"),rs1.getInt("n_gold"),rs1.getInt("n_silver")
+                                ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("n_gold")
+                                ,rs1.getInt("n_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"));
+                                al.add(thing);
+                            
+                                if(!spent_set.isEmpty())
+                                {
+                                    for(Integer i : spent_set)
+                                    {
+                                        if(i == new Date(rs1.getString("date1")).getDate())
+                                        {
+                                            spent_match = true;
+                                        }
+                                    }
+                                }
+                                if(spent_match == false)
+                                {
+                                    if(new Date(rs1.getString("date1")).getDay() == 0 || new Date(rs1.getString("date1")).getDay() == 4)
+                                    {
+                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
+                                        ,"",rs1.getString("date1"),0,0,100,0,"","");
+                                        spent_id--;
+                                        al.add(spent_thing);
+                                    }
+                                    else
+                                    {
+                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
+                                        ,"",rs1.getString("date1"),0,0,50,0,"","");
+                                        spent_id--;
+                                        al.add(spent_thing);
+                                    }
+                                }
 
+                                
+                                spent_set.add(new Date(rs1.getString("date1")).getDate());
+                                spent_match = false;
+                            }
+                            
+                            off_days_match = false;
+                            days_match = false;
+                            
                             if(rs1.next())
                             {
                                 rs1_flag = true;
@@ -142,26 +213,82 @@ public class DisplayRecord extends javax.swing.JFrame
                         if(rs2_flag == true)
                         {
                             rs2_flag = false;
+                            
+                            if(!offdays.isEmpty())
+                            {
+                                for (Integer offday : offdays) 
+                                {
+                                    if(new Date(rs2.getString("date1")).getDay() == offday)
+                                    {
+                                        off_days_match = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if(off_days_match == false && !days.isEmpty())
+                            {
+                                for (Integer day : days) 
+                                {
+                                    if(new Date(rs2.getString("date1")).getDate() == day)
+                                    {
+                                        days_match = true;
+                                        break;
+                                    }
+                                }
+                            }
                                 
-                            Thing thing1 = new Thing(rs2.getInt("id"),rs2.getString("name1"),rs2.getString("f_name"),rs2.getString("address")
-                            ,rs2.getString("city"),rs2.getInt("zip"),rs2.getString("thing"),rs2.getString("type"),rs2.getInt("n_gold"),rs2.getInt("n_silver")
-                            ,rs2.getInt("n_total"),rs2.getInt("interest"),rs2.getString("phone_no"),rs2.getString("date1"),rs2.getInt("n_gold")
-                            ,rs2.getInt("n_silver"),rs2.getInt("rupess"),rs2.getInt("invest"),rs2.getString("date2"),rs2.getString("description")
-                            ,rs2.getInt("rupess2"),rs2.getString("date3"));
-                            al.add(thing1);
+                            if(off_days_match == false && days_match == false)
+                            {
+                                Thing thing1 = new Thing(rs2.getInt("id"),rs2.getString("name1"),rs2.getString("f_name"),rs2.getString("address")
+                                ,rs2.getString("city"),rs2.getInt("zip"),rs2.getString("thing"),rs2.getString("type"),rs2.getInt("n_gold"),rs2.getInt("n_silver")
+                                ,rs2.getInt("n_total"),rs2.getInt("interest"),rs2.getString("phone_no"),rs2.getString("date1"),rs2.getInt("n_gold")
+                                ,rs2.getInt("n_silver"),rs2.getInt("rupess"),rs2.getInt("invest"),rs2.getString("date2"),rs2.getString("description")
+                                ,rs2.getInt("rupess2"),rs2.getString("date3"));
+                                al.add(thing1);
                                 
+                                if(!spent_set.isEmpty())
+                                {
+                                    for(Integer i : spent_set)
+                                    {
+                                        if(i == new Date(rs2.getString("date1")).getDate())
+                                        {
+                                            spent_match = true;
+                                        }
+                                    }
+                                }
+                                if(spent_match == false)
+                                {
+                                    if(new Date(rs1.getString("date1")).getDay() == 0 || new Date(rs1.getString("date1")).getDay() == 4)
+                                    {
+                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
+                                        ,"",rs2.getString("date1"),0,0,100,0,"","");
+                                        spent_id--;
+                                        al.add(spent_thing);
+                                    }
+                                    else
+                                    {
+                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
+                                        ,"",rs2.getString("date1"),0,0,50,0,"","");
+                                        spent_id--;
+                                        al.add(spent_thing);
+                                    }
+                                }
+                                
+                                spent_set.add(new Date(rs2.getString("date1")).getDate());
+                                spent_match = false;
+                                
+                            }
+                            
+                            off_days_match = false;
+                            days_match = false;    
+                            
                             if(rs2.next())
                             {
                                 rs2_flag = true;
                             }
                         }
- 
-                        if(rs1_flag == false && rs2_flag == false)
-                        {
-                            break;
-                        }
-                        
-                    }while(true);
+                    }while(rs1_flag == true || rs2_flag == true);
                     
                 }
                 catch (SQLException ex) 

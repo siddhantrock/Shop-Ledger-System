@@ -212,8 +212,8 @@ public class AddRecord extends javax.swing.JFrame
             {
                 String month,year;
                 ResultSet rs[];
-                ArrayList days = null;
-                ArrayList offdays = new ArrayList();
+                ArrayList<Integer> days = new ArrayList();
+                ArrayList<Integer> offdays = new ArrayList();
                 
                 month = month_txt.getText();
                 year = year_txt.getText();
@@ -222,37 +222,37 @@ public class AddRecord extends javax.swing.JFrame
                 
                 if(sunday_check.isSelected())
                 {
-                    offdays.add("sunday");
+                    offdays.add(0);
                 }
                 
                 if(monday_check.isSelected())
                 {
-                    offdays.add("monday");
+                    offdays.add(1);
                 }
                 
                 if(tuesday_check.isSelected())
                 {
-                    offdays.add("tuesday");
+                    offdays.add(2);
                 }
                 
                 if(wednesday_check.isSelected())
                 {
-                    offdays.add("wednesday");
+                    offdays.add(3);
                 }
                 
                 if(thursday_check.isSelected())
                 {
-                    offdays.add("thursday");
+                    offdays.add(4);
                 }
                 
                 if(friday_check.isSelected())
                 {
-                    offdays.add("friday");
+                    offdays.add(5);
                 }
                 
                 if(saturday_check.isSelected())
                 {
-                    offdays.add("saturday");
+                    offdays.add(6);
                 }
                 
                 if(days_list.getSelectedIndex() != -1)
