@@ -5,26 +5,58 @@ import com.database.Connect;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class DisplayRecord extends javax.swing.JFrame 
 {
     private ResultSet rs[],rs1,rs2;
     private Connect connect;
+    private ArrayList days;
+    private ArrayList offdays;
+    private boolean rs1_flag;
+    private boolean rs2_flag;
     
     public DisplayRecord() 
     {
         initComponents();
     }
     
-    public void setResultSet(ResultSet rs[], Connect connect)
+    public void setResultSet(ResultSet rs[], Connect connect, ArrayList days, ArrayList offdays)
     {
         this.rs = rs;
         rs1 = rs[0];
         rs2 = rs[1];
+        
+        try 
+        {
+            if(rs1.next())
+            {
+                rs1_flag = true;
+            }
+            if(rs2.next())
+            {
+                rs2_flag = true;
+            }
+            if(rs1_flag == false && rs2_flag == false)
+            {
+                JOptionPane.showMessageDialog(this, "No record found");
+                connect.closeConnection();
+                dispose();
+            }
+        }
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         this.connect = connect;
+        this.days = days;
+        this.offdays = offdays;
     }
 
     @SuppressWarnings("unchecked")
@@ -86,24 +118,58 @@ public class DisplayRecord extends javax.swing.JFrame
         {
             public void run()
             {
-                ArrayList <Thing> al = new ArrayList();
-                
+                List <Thing> al = new ArrayList();
                 try 
                 {
                     do
                     {
-                        Thing thing = new Thing(rs1.getInt("id"),rs1.getString("name1"),rs1.getString("f_name"),rs1.getString("address")
-                        ,rs1.getString("city"),rs1.getInt("zip"),rs1.getString("thing"),rs1.getString("type"),rs1.getInt("n_gold"),rs1.getInt("n_silver")
-                        ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("n_gold")
-                        ,rs1.getInt("n_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"));
-                        al.add(thing);
-                    }while(rs1.next());
+                        if(rs1_flag == true)
+                        {    
+                            rs1_flag = false;
+                                
+                            Thing thing = new Thing(rs1.getInt("id"),rs1.getString("name1"),rs1.getString("f_name"),rs1.getString("address")
+                            ,rs1.getString("city"),rs1.getInt("zip"),rs1.getString("thing"),rs1.getString("type"),rs1.getInt("n_gold"),rs1.getInt("n_silver")
+                            ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("n_gold")
+                            ,rs1.getInt("n_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"));
+                            al.add(thing);
+
+                            if(rs1.next())
+                            {
+                                rs1_flag = true;
+                            }
+                        }
+                        
+                        if(rs2_flag == true)
+                        {
+                            rs2_flag = false;
+                                
+                            Thing thing1 = new Thing(rs2.getInt("id"),rs2.getString("name1"),rs2.getString("f_name"),rs2.getString("address")
+                            ,rs2.getString("city"),rs2.getInt("zip"),rs2.getString("thing"),rs2.getString("type"),rs2.getInt("n_gold"),rs2.getInt("n_silver")
+                            ,rs2.getInt("n_total"),rs2.getInt("interest"),rs2.getString("phone_no"),rs2.getString("date1"),rs2.getInt("n_gold")
+                            ,rs2.getInt("n_silver"),rs2.getInt("rupess"),rs2.getInt("invest"),rs2.getString("date2"),rs2.getString("description")
+                            ,rs2.getInt("rupess2"),rs2.getString("date3"));
+                            al.add(thing1);
+                                
+                            if(rs2.next())
+                            {
+                                rs2_flag = true;
+                            }
+                        }
+ 
+                        if(rs1_flag == false && rs2_flag == false)
+                        {
+                            break;
+                        }
+                        
+                    }while(true);
                     
                 }
                 catch (SQLException ex) 
                 {
                     Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                
+                Collections.sort(al);
                 
                 Object[] obj = new Object[7];
                 DefaultTableModel model1 = (DefaultTableModel)jTable1.getModel();
@@ -120,6 +186,28 @@ public class DisplayRecord extends javax.swing.JFrame
                     
                     model1.addRow(obj);
                 }
+                
+                obj[0] = "";
+                obj[1] = "";
+                obj[2] = "";
+                obj[3] = "";
+                obj[4] = "";
+                obj[5] = "";
+                obj[6] = "";
+                
+                model1.addRow(obj);
+                model1.addRow(obj);
+                model1.addRow(obj);
+                
+                obj[0] = "";
+                obj[1] = "";
+                obj[2] = "Total";
+                obj[3] = al.size();
+                obj[4] = "";
+                obj[5] = "";
+                obj[6] = "";
+                
+                model1.addRow(obj);
             }
         }).start();
         

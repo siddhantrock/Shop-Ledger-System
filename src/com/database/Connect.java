@@ -7,14 +7,15 @@ import java.util.logging.Logger;
 public class Connect 
 {
     private Connection con;
-    private Statement st;
+    private Statement st1,st2;
     public Connect()
     {
         try 
         {
             Class.forName("net.ucanaccess.jdbc.UcanaccessDriver");
             con = DriverManager.getConnection("jdbc:ucanaccess://Database2.mdb");
-            st = con.createStatement();
+            st1 = con.createStatement();
+            st2 = con.createStatement();
         }
         catch (ClassNotFoundException | SQLException ex) 
         {
@@ -26,7 +27,8 @@ public class Connect
     {
         try 
         {
-            st.close();
+            st1.close();
+            st2.close();
             con.close();
         }
         catch (SQLException ex) 
@@ -42,7 +44,7 @@ public class Connect
         
         try 
         {
-            rs1 = st.executeQuery("select * from table1 where (type = 'silver' or type = 'gold' or type = 'both') and date1 like '" + month + "/*/" + year + "' order by date1");
+            rs1 = st1.executeQuery("select * from table1 where (type = 'silver' or type = 'gold' or type = 'both') and date1 like '" + month + "/*/" + year + "' order by date1");
         }
         catch (SQLException ex) 
         {
@@ -51,7 +53,7 @@ public class Connect
         
         try 
         {
-            rs2 = st.executeQuery("select * from table2 where (type = 'silver' or type = 'gold' or type = 'both') and date1 like '" + month + "/*/" + year + "' order by date1");
+            rs2 = st2.executeQuery("select * from table2 where (type = 'silver' or type = 'gold' or type = 'both') and date1 like '" + month + "/*/" + year + "' order by date1");
         }
         catch (SQLException ex) 
         {

@@ -1,6 +1,8 @@
 package com.commodity;
 
-public class Thing 
+import java.util.Date;
+
+public class Thing implements Comparable<Object>
 {
     private int id;
     private String name;
@@ -250,6 +252,12 @@ public class Thing
     public void setDate3(String date3) {
         this.date3 = date3;
     }
-    
+
+    @Override
+    public int compareTo(Object o) 
+    {
+        Thing t = (Thing)o;
+        return new Date(date1).compareTo(new Date(t.getDate1()));
+    }
     
 }
