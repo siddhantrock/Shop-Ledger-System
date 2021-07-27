@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 public class Connect 
 {
     private Connection con;
-    private Statement st1,st2;
+    private Statement st1,st2,st3;
     public Connect()
     {
         try 
@@ -16,6 +16,7 @@ public class Connect
             con = DriverManager.getConnection("jdbc:ucanaccess://Database2.mdb");
             st1 = con.createStatement();
             st2 = con.createStatement();
+            st3 = con.createStatement();
         }
         catch (ClassNotFoundException | SQLException ex) 
         {
@@ -29,6 +30,7 @@ public class Connect
         {
             st1.close();
             st2.close();
+            st3.close();
             con.close();
         }
         catch (SQLException ex) 
@@ -62,6 +64,12 @@ public class Connect
         
         rs[0] = rs1;
         rs[1] = rs2;
+        return rs;
+    }
+    
+    public ResultSet getThing(int id, String table) throws SQLException
+    {
+        ResultSet rs = st3.executeQuery("select * from " + table + " where id = " + id);
         return rs;
     }
 }

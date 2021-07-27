@@ -262,7 +262,7 @@ public class AddRecord extends javax.swing.JFrame
                 
                 DisplayRecord dr = new DisplayRecord();
                 dr.setVisible(true);
-                dr.setResultSet(rs, connect,days,offdays);
+                dr.setResultSet(rs, connect,days,offdays,month,year);
                 dispose();
             }
         }).start();

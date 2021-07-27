@@ -26,8 +26,9 @@ public class Thing implements Comparable<Object>
     private String description;
     private int rupess2;
     private String date3;
+    private String table;
 
-    public Thing(int id, String name, String f_name, String address, String city, int zip, String thing, String type, int n_gold, int n_silver, int n_total, int interest, String phone_no, String date1, int g_gold, int g_silver, int rupess, int invest, String date2, String description, int rupess2, String date3) {
+    public Thing(int id, String name, String f_name, String address, String city, int zip, String thing, String type, int n_gold, int n_silver, int n_total, int interest, String phone_no, String date1, int g_gold, int g_silver, int rupess, int invest, String date2, String description, int rupess2, String date3, String table) {
         this.id = id;
         this.name = name;
         this.f_name = f_name;
@@ -50,9 +51,10 @@ public class Thing implements Comparable<Object>
         this.description = description;
         this.rupess2 = rupess2;
         this.date3 = date3;
+        this.table = table;
     }
 
-    public Thing(int id, String name, String f_name, String address, String city, int zip, String thing, String type, int n_gold, int n_silver, int n_total, int interest, String phone_no, String date1, int g_gold, int g_silver, int rupess, int invest, String date2, String description) {
+    public Thing(int id, String name, String f_name, String address, String city, int zip, String thing, String type, int n_gold, int n_silver, int n_total, int interest, String phone_no, String date1, int g_gold, int g_silver, int rupess, int invest, String date2, String description, String table) {
         this.id = id;
         this.name = name;
         this.f_name = f_name;
@@ -73,6 +75,7 @@ public class Thing implements Comparable<Object>
         this.invest = invest;
         this.date2 = date2;
         this.description = description;
+        this.table = table;
     }
 
     
@@ -253,11 +256,20 @@ public class Thing implements Comparable<Object>
         this.date3 = date3;
     }
 
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
+    }
+    
+    
+
     @Override
     public int compareTo(Object o) 
     {
         Thing t = (Thing)o;
         return new Date(date1).compareTo(new Date(t.getDate1()));
     }
-    
 }
