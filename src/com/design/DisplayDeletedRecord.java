@@ -55,6 +55,7 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
         full_data_report_btn = new javax.swing.JButton();
         back_btn = new javax.swing.JButton();
         home_btn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(MAXIMIZED_BOTH);
@@ -63,7 +64,9 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 formWindowOpened(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTable1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -82,12 +85,19 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
         });
         jScrollPane1.setViewportView(jTable1);
 
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1210, 250));
+
+        delete_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         delete_btn.setText("Delete");
         delete_btn.setEnabled(false);
+        getContentPane().add(delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 358, -1, -1));
 
+        update_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         update_btn.setText("Update");
         update_btn.setEnabled(false);
+        getContentPane().add(update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 358, -1, -1));
 
+        data_report_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         data_report_btn.setText("Data report");
         data_report_btn.setEnabled(false);
         data_report_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -95,62 +105,33 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 data_report_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(data_report_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 358, -1, -1));
 
+        full_data_report_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         full_data_report_btn.setText("Full data report");
         full_data_report_btn.setEnabled(false);
+        getContentPane().add(full_data_report_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(621, 358, -1, -1));
 
+        back_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         back_btn.setText("Back");
         back_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 back_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(back_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(916, 358, -1, -1));
 
+        home_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         home_btn.setText("Home");
         home_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 home_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(home_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1079, 358, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(delete_btn)
-                .addGap(84, 84, 84)
-                .addComponent(update_btn)
-                .addGap(92, 92, 92)
-                .addComponent(data_report_btn)
-                .addGap(119, 119, 119)
-                .addComponent(full_data_report_btn)
-                .addGap(130, 130, 130)
-                .addComponent(back_btn)
-                .addGap(92, 92, 92)
-                .addComponent(home_btn)
-                .addContainerGap(165, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(delete_btn)
-                    .addComponent(update_btn)
-                    .addComponent(data_report_btn)
-                    .addComponent(full_data_report_btn)
-                    .addComponent(back_btn)
-                    .addComponent(home_btn))
-                .addGap(141, 141, 141))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/resource/16067961-Jewelry-earrings-on-light-silk-background-Stock-Vector-jewellery.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -814,6 +795,7 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
     private javax.swing.JButton delete_btn;
     private javax.swing.JButton full_data_report_btn;
     private javax.swing.JButton home_btn;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JButton update_btn;

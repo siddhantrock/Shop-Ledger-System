@@ -34,6 +34,7 @@ public class AddRecord extends javax.swing.JFrame
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         days_list = new javax.swing.JList<>();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(AddRecord.MAXIMIZED_BOTH);
@@ -42,48 +43,82 @@ public class AddRecord extends javax.swing.JFrame
                 formWindowOpened(evt);
             }
         });
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jLabel1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel1.setText("select month and year");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 160, -1, -1));
 
+        submit_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         submit_btn.setText("Submit");
         submit_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submit_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(submit_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 450, -1, -1));
 
+        home_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         home_btn.setText("Home");
         home_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 home_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(home_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 450, -1, -1));
 
+        month_txt.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        getContentPane().add(month_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 150, 30, -1));
+
+        jLabel2.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel2.setText("/");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 160, -1, -1));
 
+        year_txt.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        getContentPane().add(year_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, 44, -1));
+
+        jLabel3.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel3.setText("Select off days");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 220, -1, -1));
 
+        sunday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         sunday_check.setText("Sunday");
+        getContentPane().add(sunday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 220, -1, -1));
 
+        monday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         monday_check.setText("Monday");
+        getContentPane().add(monday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 220, -1, -1));
 
+        tuesday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         tuesday_check.setText("Tuesday");
         tuesday_check.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tuesday_checkActionPerformed(evt);
             }
         });
+        getContentPane().add(tuesday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 220, -1, -1));
 
+        wednesday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         wednesday_check.setText("Wednesday");
+        getContentPane().add(wednesday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 220, -1, -1));
 
+        thursday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         thursday_check.setText("Thursday");
+        getContentPane().add(thursday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 260, -1, -1));
 
+        friday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         friday_check.setText("Friday");
+        getContentPane().add(friday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 260, -1, -1));
 
+        saturday_check.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         saturday_check.setText("saturday");
+        getContentPane().add(saturday_check, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 260, -1, -1));
 
+        jLabel4.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel4.setText("Select perticular off days");
+        getContentPane().add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 330, -1, -1));
 
+        days_list.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         days_list.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31" };
             public int getSize() { return strings.length; }
@@ -91,89 +126,10 @@ public class AddRecord extends javax.swing.JFrame
         });
         jScrollPane1.setViewportView(days_list);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(263, 263, 263)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel1)
-                                    .addGap(115, 115, 115))
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addGap(150, 150, 150)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(102, 102, 102))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(339, 339, 339)
-                        .addComponent(submit_btn)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(41, 41, 41)
-                        .addComponent(home_btn))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(month_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(year_txt, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(sunday_check)
-                        .addGap(18, 18, 18)
-                        .addComponent(monday_check)
-                        .addGap(18, 18, 18)
-                        .addComponent(tuesday_check)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(wednesday_check))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(thursday_check)
-                        .addGap(18, 18, 18)
-                        .addComponent(friday_check)
-                        .addGap(18, 18, 18)
-                        .addComponent(saturday_check))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(277, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(75, 75, 75)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(month_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2)
-                    .addComponent(year_txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(sunday_check)
-                    .addComponent(monday_check)
-                    .addComponent(tuesday_check)
-                    .addComponent(wednesday_check))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(thursday_check)
-                    .addComponent(friday_check)
-                    .addComponent(saturday_check))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(44, 44, 44)
-                        .addComponent(jLabel4))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(59, 59, 59)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(submit_btn)
-                    .addComponent(home_btn))
-                .addContainerGap(103, Short.MAX_VALUE))
-        );
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 320, 81, 71));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/resource/16067961-Jewelry-earrings-on-light-silk-background-Stock-Vector-jewellery.jpg"))); // NOI18N
+        getContentPane().add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 1320, 1320));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -313,6 +269,7 @@ public class AddRecord extends javax.swing.JFrame
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JCheckBox monday_check;
     private javax.swing.JTextField month_txt;

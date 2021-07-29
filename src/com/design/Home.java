@@ -13,44 +13,32 @@ public class Home extends javax.swing.JFrame
 
         putting_record_btn = new javax.swing.JButton();
         releasing_record_btn = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setExtendedState(Home.MAXIMIZED_BOTH);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        putting_record_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         putting_record_btn.setText("Puting record in ledger account");
         putting_record_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 putting_record_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(putting_record_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, -1, -1));
 
+        releasing_record_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         releasing_record_btn.setText("releasing record from ledger account");
         releasing_record_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 releasing_record_btnActionPerformed(evt);
             }
         });
+        getContentPane().add(releasing_record_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 350, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(331, 331, 331)
-                .addComponent(putting_record_btn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 239, Short.MAX_VALUE)
-                .addComponent(releasing_record_btn)
-                .addGap(241, 241, 241))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(225, 225, 225)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(putting_record_btn)
-                    .addComponent(releasing_record_btn))
-                .addContainerGap(290, Short.MAX_VALUE))
-        );
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/resource/16067961-Jewelry-earrings-on-light-silk-background-Stock-Vector-jewellery.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -10, 1320, 1320));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -114,6 +102,7 @@ public class Home extends javax.swing.JFrame
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JButton putting_record_btn;
     private javax.swing.JButton releasing_record_btn;
     // End of variables declaration//GEN-END:variables
