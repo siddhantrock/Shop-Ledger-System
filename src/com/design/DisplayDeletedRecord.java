@@ -19,6 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +38,9 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
     private ArrayList<Integer> offdays;
     private int id,row=-1;
     private String month,year;
+    private List<Thing> al = new ArrayList();
+    private String data[];
+    private String date_difference_data_report[],interest_data_report[];
     
     public DisplayDeletedRecord() 
     {
@@ -66,6 +70,7 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTable1.setBorder(new javax.swing.border.MatteBorder(null));
         jTable1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -83,19 +88,32 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.setAutoscrolls(false);
+        jTable1.setGridColor(new java.awt.Color(255, 0, 0));
+        jTable1.setRowHeight(28);
+        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 0));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(180);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(180);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(150);
+            jTable1.getColumnModel().getColumn(8).setPreferredWidth(200);
+        }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1210, 250));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 11, 1280, 361));
 
         delete_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         delete_btn.setText("Delete");
         delete_btn.setEnabled(false);
-        getContentPane().add(delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(21, 358, -1, -1));
+        getContentPane().add(delete_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 450, -1, -1));
 
         update_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         update_btn.setText("Update");
         update_btn.setEnabled(false);
-        getContentPane().add(update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 358, -1, -1));
+        getContentPane().add(update_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 450, -1, -1));
 
         data_report_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         data_report_btn.setText("Data report");
@@ -105,12 +123,16 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 data_report_btnActionPerformed(evt);
             }
         });
-        getContentPane().add(data_report_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(373, 358, -1, -1));
+        getContentPane().add(data_report_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 450, -1, -1));
 
         full_data_report_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         full_data_report_btn.setText("Full data report");
-        full_data_report_btn.setEnabled(false);
-        getContentPane().add(full_data_report_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(621, 358, -1, -1));
+        full_data_report_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                full_data_report_btnActionPerformed(evt);
+            }
+        });
+        getContentPane().add(full_data_report_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 450, -1, -1));
 
         back_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         back_btn.setText("Back");
@@ -119,7 +141,7 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 back_btnActionPerformed(evt);
             }
         });
-        getContentPane().add(back_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(916, 358, -1, -1));
+        getContentPane().add(back_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(930, 450, -1, -1));
 
         home_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         home_btn.setText("Home");
@@ -128,7 +150,7 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 home_btnActionPerformed(evt);
             }
         });
-        getContentPane().add(home_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1079, 358, -1, -1));
+        getContentPane().add(home_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(1090, 450, -1, -1));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com/resource/16067961-Jewelry-earrings-on-light-silk-background-Stock-Vector-jewellery.jpg"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -152,29 +174,64 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
         {
             public void run()
             {
-                List<Thing> al = new ArrayList();
+                boolean off_days_match = false;
+                boolean days_match = false;
+                
                 try 
                 {
                     do
                     {
-                        Thing thing = new Thing(rs.getInt("id"),rs.getString("name1"),rs.getString("f_name"),rs.getString("address"),rs.getString("city")
-                        ,rs.getInt("zip"),rs.getString("thing"),rs.getString("type"),rs.getInt("n_gold"),rs.getInt("n_silver"),rs.getInt("n_total")
-                        ,rs.getInt("interest"),rs.getString("phone_no"),rs.getString("date1"),rs.getInt("g_gold"),rs.getInt("g_silver"),rs.getInt("rupess")
-                        ,rs.getInt("invest"),rs.getString("date2"),rs.getString("description"),rs.getInt("rupess2"),rs.getString("date3"),"table2");
                         
-                        al.add(thing);
+                        if(!offdays.isEmpty())
+                            {
+                                for (Integer offday : offdays) 
+                                {
+                                    if(new Date(rs.getString("date3")).getDay() == offday)
+                                    {
+                                        off_days_match = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            
+                            if(off_days_match == false && !days.isEmpty())
+                            {
+                                for (Integer day : days) 
+                                {
+                                    if(new Date(rs.getString("date3")).getDate() == day)
+                                    {
+                                        days_match = true;
+                                        break;
+                                    }
+                                }
+                            }
+                        
+                        if(off_days_match == false && days_match == false)
+                        {
+                            Thing thing = new Thing(rs.getInt("id"),rs.getString("name1"),rs.getString("f_name"),rs.getString("address"),rs.getString("city")
+                            ,rs.getInt("zip"),rs.getString("thing"),rs.getString("type"),rs.getInt("n_gold"),rs.getInt("n_silver"),rs.getInt("n_total")
+                            ,rs.getInt("interest"),rs.getString("phone_no"),rs.getString("date1"),rs.getInt("g_gold"),rs.getInt("g_silver"),rs.getInt("rupess")
+                            ,rs.getInt("invest"),rs.getString("date2"),rs.getString("description"),rs.getInt("rupess2"),rs.getString("date3"),"table2");
+                        
+                            al.add(thing);
+                        }
+                        
+                        off_days_match = false;
+                        days_match = false;
+                            
                     }while(rs.next());
                 }
                 catch (SQLException ex) 
                 {
                     Logger.getLogger(DisplayDeletedRecord.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
+                Thing.check = true;
                 Collections.sort(al);
                 
                 Object obj[] = new Object[11];
                 DefaultTableModel model1 = (DefaultTableModel)jTable1.getModel();
-                String data[];
+                date_difference_data_report = new String[al.size()];
+                interest_data_report = new String[al.size()];
                 
                 for(int i=0;i<al.size();i++)
                 {
@@ -190,7 +247,11 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                     data = Thing.dateDifference(al.get(i).getDate1(), 1.15f, al.get(i).getRupess(), al.get(i).getDate3());
                     
                     obj[8] = data[0];
+                    date_difference_data_report[i] = data[0];
+                    
                     obj[9] = data[1];
+                    interest_data_report[i] = data[1];
+                    
                     obj[10] = al.get(i).getRupess() + Integer.parseInt(data[1]);
                     
                     model1.addRow(obj);
@@ -226,6 +287,8 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                 
                 model1.addRow(obj);
                 
+                Thing.check = false;
+                
                 ListSelectionModel model = jTable1.getSelectionModel();
                 model.addListSelectionListener(new ListSelectionListener()
                 {
@@ -243,7 +306,6 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                             delete_btn.setEnabled(true);
                             update_btn.setEnabled(true);
                             data_report_btn.setEnabled(true);
-                            full_data_report_btn.setEnabled(true);
                             
                             id = Integer.parseInt(model1.getValueAt(model.getMinSelectionIndex(),0)+"");
                             row = model.getMinSelectionIndex();
@@ -253,7 +315,6 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
                             delete_btn.setEnabled(false);
                             update_btn.setEnabled(false);
                             data_report_btn.setEnabled(false);
-                            full_data_report_btn.setEnabled(false);
                         }
                     }
                     
@@ -756,6 +817,81 @@ public class DisplayDeletedRecord extends javax.swing.JFrame
         }).start();
         
     }//GEN-LAST:event_data_report_btnActionPerformed
+
+    private void full_data_report_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_full_data_report_btnActionPerformed
+
+        new Thread(new Runnable()
+        {
+            public void run()
+            {
+                File f1 = new File(year+"/Release record");
+                f1.mkdirs();
+                
+                String file_name = year+"/Release record/"+month+".pdf";
+                
+                PdfWriter writer = null;
+                
+                try 
+                {
+                  writer = new PdfWriter(file_name);
+                }
+                catch (FileNotFoundException ex) 
+                {
+                   //Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        
+                PdfDocument pdfDoc=new PdfDocument(writer);
+        
+                Document document = new Document(pdfDoc);
+                int date=0;
+                
+                for(int i=0;i<al.size();i++)
+                {
+                    if(new Date(al.get(i).getDate3()).getDate() == date || date == 0)
+                    {
+                        document.add(new Paragraph("--------------------------------------------------------------------------------------------------------------------------------"));
+                    }
+                    else
+                    {
+                        document.add(new Paragraph("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
+                    }
+                    
+                    document.add(new Paragraph(al.get(i).getRupess() + "/   " + al.get(i).getName() + " S/O " + al.get(i).getF_name() + " , " + al.get(i).getAddress()));
+                    document.add(new Paragraph(al.get(i).getThing()));
+                    
+                    if(al.get(i).getG_gold() > 0)
+                    {
+                        document.add(new Paragraph("Gold Weight = " + al.get(i).getG_gold()));
+                    }
+                    
+                    if(al.get(i).getG_silver() > 0)
+                    {
+                        document.add(new Paragraph("Silver Weight = " + al.get(i).getG_silver()));
+                    }
+                    
+                    document.add(new Paragraph("Date = " + al.get(i).getDate1()));
+                    document.add(new Paragraph("Release date = " + al.get(i).getDate3()));
+                    document.add(new Paragraph(" Date difference = " + date_difference_data_report[i]));
+                    document.add(new Paragraph(" Interest = " + interest_data_report[i]));
+                    
+                    
+                    date = new Date(al.get(i).getDate3()).getDate();
+                }
+                
+                document.close();
+                
+                try 
+                {
+                    Desktop.getDesktop().open(new File(file_name));
+                }
+                catch (IOException ex) 
+                {
+                    Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }).start();
+        
+    }//GEN-LAST:event_full_data_report_btnActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

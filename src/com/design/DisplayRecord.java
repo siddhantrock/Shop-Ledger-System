@@ -107,6 +107,7 @@ public class DisplayRecord extends javax.swing.JFrame
         });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jTable1.setBorder(new javax.swing.border.MatteBorder(null));
         jTable1.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -117,16 +118,31 @@ public class DisplayRecord extends javax.swing.JFrame
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jTable1.setAutoscrolls(false);
+        jTable1.setFocusable(false);
+        jTable1.setGridColor(new java.awt.Color(255, 0, 0));
+        jTable1.setRowHeight(28);
+        jTable1.setSelectionForeground(new java.awt.Color(255, 255, 0));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(180);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(180);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(200);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(180);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(180);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(200);
+        }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 11, 1230, 290));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 10, 1280, 361));
 
         delete_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         delete_btn.setText("Delete");
@@ -150,7 +166,6 @@ public class DisplayRecord extends javax.swing.JFrame
 
         full_data_report_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         full_data_report_btn.setText("Full data Report");
-        full_data_report_btn.setEnabled(false);
         full_data_report_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 full_data_report_btnActionPerformed(evt);
@@ -230,8 +245,8 @@ public class DisplayRecord extends javax.swing.JFrame
                             {
                                 Thing thing = new Thing(rs1.getInt("id"),rs1.getString("name1"),rs1.getString("f_name"),rs1.getString("address")
                                 ,rs1.getString("city"),rs1.getInt("zip"),rs1.getString("thing"),rs1.getString("type"),rs1.getInt("n_gold"),rs1.getInt("n_silver")
-                                ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("n_gold")
-                                ,rs1.getInt("n_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"),"table1");
+                                ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("g_gold")
+                                ,rs1.getInt("g_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"),"table1");
                                 al.add(thing);
                             
                                 if(!spent_set.isEmpty())
@@ -308,8 +323,8 @@ public class DisplayRecord extends javax.swing.JFrame
                             {
                                 Thing thing1 = new Thing(rs2.getInt("id"),rs2.getString("name1"),rs2.getString("f_name"),rs2.getString("address")
                                 ,rs2.getString("city"),rs2.getInt("zip"),rs2.getString("thing"),rs2.getString("type"),rs2.getInt("n_gold"),rs2.getInt("n_silver")
-                                ,rs2.getInt("n_total"),rs2.getInt("interest"),rs2.getString("phone_no"),rs2.getString("date1"),rs2.getInt("n_gold")
-                                ,rs2.getInt("n_silver"),rs2.getInt("rupess"),rs2.getInt("invest"),rs2.getString("date2"),rs2.getString("description")
+                                ,rs2.getInt("n_total"),rs2.getInt("interest"),rs2.getString("phone_no"),rs2.getString("date1"),rs2.getInt("g_gold")
+                                ,rs2.getInt("g_silver"),rs2.getInt("rupess"),rs2.getInt("invest"),rs2.getString("date2"),rs2.getString("description")
                                 ,rs2.getInt("rupess2"),rs2.getString("date3"),"table2");
                                 al.add(thing1);
                                 
@@ -422,7 +437,6 @@ public class DisplayRecord extends javax.swing.JFrame
                             delete_btn.setEnabled(true);
                             update_btn.setEnabled(true);
                             data_report_btn.setEnabled(true);
-                            full_data_report_btn.setEnabled(true);
                             
                             id = Integer.parseInt(model1.getValueAt(model.getMinSelectionIndex(),0)+"");
                             row = model.getMinSelectionIndex();
@@ -434,7 +448,6 @@ public class DisplayRecord extends javax.swing.JFrame
                             delete_btn.setEnabled(false);
                             update_btn.setEnabled(false);
                             data_report_btn.setEnabled(false);
-                            full_data_report_btn.setEnabled(false);
                         }
                     }
                     
@@ -875,7 +888,14 @@ public class DisplayRecord extends javax.swing.JFrame
                 
                 Cell description_c1 = new Cell();
                 try {
-                    description_c1.add(new Paragraph(rs.getString("description")));
+                    if(rs.getString("description")  == null)
+                    {
+                        description_c1.add(new Paragraph(""));
+                    }
+                    else
+                    {
+                        description_c1.add(new Paragraph(rs.getString("description")));
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -930,24 +950,37 @@ public class DisplayRecord extends javax.swing.JFrame
                 
                 for(int i=0;i<al.size();i++)
                 {
-                    if(al.get(i).getId() <= 0)
-                    {
-                        document.add(new Paragraph(al.get(i).getRupess() + "/   Ghar kharch"));
-                        document.add(new Paragraph(al.get(id).getDate1()));
-                        continue;
-                    }
-                    document.add(new Paragraph(al.get(i).getRupess() + "/   " + al.get(i).getName() + " s/o " + al.get(i).getF_name() + " , " + al.get(i).getAddress()));
-                    document.add(new Paragraph(al.get(i).getThing() + " weight = "));
-                    document.add(new Paragraph(al.get(i).getDate1()));
-                    
                     if(new Date(al.get(i).getDate1()).getDate() == date || date == 0)
                     {
-                        document.add(new Paragraph("-------------------------------------------------------------------------------------------------"));
+                        document.add(new Paragraph("--------------------------------------------------------------------------------------------------------------------------------"));
                     }
                     else
                     {
-                        document.add(new Paragraph("**************************************************************************************************"));
+                        document.add(new Paragraph("--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------"));
                     }
+                    
+                    if(al.get(i).getId() <= 0)
+                    {
+                        document.add(new Paragraph(al.get(i).getRupess() + "/   GHAR KHARCH"));
+                        document.add(new Paragraph(al.get(id).getDate1()));
+                        continue;
+                    }
+                    
+                    document.add(new Paragraph(al.get(i).getRupess() + "/   " + al.get(i).getName() + " S/O " + al.get(i).getF_name() + " , " + al.get(i).getAddress()));
+                    document.add(new Paragraph(al.get(i).getThing()));
+                    
+                    if(al.get(i).getG_gold() > 0)
+                    {
+                        document.add(new Paragraph("Gold Weight = " + al.get(i).getG_gold()));
+                    }
+                    
+                    if(al.get(i).getG_silver()> 0)
+                    {
+                        document.add(new Paragraph("Silver Weight = " + al.get(i).getG_silver()));
+                    }
+                    document.add(new Paragraph("Date = " + al.get(i).getDate1()));
+                    
+                    
                     date = new Date(al.get(i).getDate1()).getDate();
                 }
                 

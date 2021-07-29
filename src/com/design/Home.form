@@ -49,7 +49,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Tempus Sans ITC" size="18" style="1"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="releasing record from ledger account"/>
+        <Property name="text" type="java.lang.String" value="Releasing record from ledger account"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="releasing_record_btnActionPerformed"/>

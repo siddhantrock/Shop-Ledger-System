@@ -93,7 +93,7 @@ public class ReleaseRecord extends javax.swing.JFrame
         jLabel1.setText("select month and year");
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 160, -1, -1));
 
-        submit_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        submit_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         submit_btn.setText("Submit");
         submit_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -102,7 +102,7 @@ public class ReleaseRecord extends javax.swing.JFrame
         });
         getContentPane().add(submit_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 460, -1, -1));
 
-        home_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
+        home_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         home_btn.setText("Home");
         home_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,7 +119,7 @@ public class ReleaseRecord extends javax.swing.JFrame
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 160, -1, -1));
 
         year_txt.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
-        getContentPane().add(year_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 160, 44, -1));
+        getContentPane().add(year_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 160, 50, -1));
 
         jLabel3.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel3.setText("Select off days");

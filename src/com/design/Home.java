@@ -29,7 +29,7 @@ public class Home extends javax.swing.JFrame
         getContentPane().add(putting_record_btn, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 350, -1, -1));
 
         releasing_record_btn.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
-        releasing_record_btn.setText("releasing record from ledger account");
+        releasing_record_btn.setText("Releasing record from ledger account");
         releasing_record_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 releasing_record_btnActionPerformed(evt);

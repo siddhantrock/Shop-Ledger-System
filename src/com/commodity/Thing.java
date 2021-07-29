@@ -26,7 +26,9 @@ public class Thing implements Comparable<Object>
     private String description;
     private int rupess2;
     private String date3;
+    
     private String table;
+    public static boolean check;
 
     public Thing(int id, String name, String f_name, String address, String city, int zip, String thing, String type, int n_gold, int n_silver, int n_total, int interest, String phone_no, String date1, int g_gold, int g_silver, int rupess, int invest, String date2, String description, int rupess2, String date3, String table) {
         this.id = id;
@@ -270,7 +272,14 @@ public class Thing implements Comparable<Object>
     public int compareTo(Object o) 
     {
         Thing t = (Thing)o;
-        return new Date(date1).compareTo(new Date(t.getDate1()));
+        if(check == false)
+        {
+            return new Date(date1).compareTo(new Date(t.getDate1()));
+        }
+        else
+        {
+            return new Date(date3).compareTo(new Date(t.getDate3()));
+        }
     }
     
     public static String[] dateDifference(String date , float rate , int rupess, String release_date)

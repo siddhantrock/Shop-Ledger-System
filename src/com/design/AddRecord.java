@@ -75,7 +75,7 @@ public class AddRecord extends javax.swing.JFrame
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 160, -1, -1));
 
         year_txt.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
-        getContentPane().add(year_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, 44, -1));
+        getContentPane().add(year_txt, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 150, 50, -1));
 
         jLabel3.setFont(new java.awt.Font("Tempus Sans ITC", 1, 14)); // NOI18N
         jLabel3.setText("Select off days");
