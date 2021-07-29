@@ -67,6 +67,20 @@ public class Connect
         return rs;
     }
     
+    public ResultSet addDeletedRecordToLedger(String month, String year)
+    {
+        ResultSet rs = null;
+        try 
+        {
+            rs = st1.executeQuery("select * from table2 where (type = 'silver' or type = 'gold' or type = 'both') and date3 like '" + month + "/*/" + year + "' order by date1");
+        }
+        catch (SQLException ex) 
+        {
+            Logger.getLogger(Connect.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return rs;
+    }
+    
     public ResultSet getThing(int id, String table) throws SQLException
     {
         ResultSet rs = st3.executeQuery("select * from " + table + " where id = " + id);

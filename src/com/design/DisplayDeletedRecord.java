@@ -19,10 +19,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -31,57 +28,19 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-public class DisplayRecord extends javax.swing.JFrame 
+public class DisplayDeletedRecord extends javax.swing.JFrame 
 {
-    private ResultSet rs[],rs1,rs2;
+    
+    private ResultSet rs;
     private Connect connect;
     private ArrayList<Integer> days;
     private ArrayList<Integer> offdays;
-    private boolean rs1_flag;
-    private boolean rs2_flag;
     private int id,row=-1;
     private String month,year;
-    private String table;
-    private List <Thing> al = new ArrayList();
     
-    public DisplayRecord() 
+    public DisplayDeletedRecord() 
     {
         initComponents();
-    }
-    
-    public void setResultSet(ResultSet rs[], Connect connect, ArrayList days, ArrayList offdays,String month, String year)
-    {
-        this.rs = rs;
-        rs1 = rs[0];
-        rs2 = rs[1];
-        
-        try 
-        {
-            if(rs1.next())
-            {
-                rs1_flag = true;
-            }
-            if(rs2.next())
-            {
-                rs2_flag = true;
-            }
-            if(rs1_flag == false && rs2_flag == false)
-            {
-                JOptionPane.showMessageDialog(this, "No record found");
-                connect.closeConnection();
-                dispose();
-            }
-        }
-        catch (SQLException ex) 
-        {
-            Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        this.connect = connect;
-        this.days = days;
-        this.offdays = offdays;
-        this.month = month;
-        this.year = year;
     }
 
     @SuppressWarnings("unchecked")
@@ -98,7 +57,7 @@ public class DisplayRecord extends javax.swing.JFrame
         home_btn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setExtendedState(DisplayRecord.MAXIMIZED_BOTH);
+        setExtendedState(MAXIMIZED_BOTH);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -110,11 +69,11 @@ public class DisplayRecord extends javax.swing.JFrame
 
             },
             new String [] {
-                "Id", "Name", "F_name", "Address", "Thing", "Rupess", "Date", "Table"
+                "ID", "Name", "Father's name", "Address", "Thing", "Rupess", "Date", "Release date", "Time difference", "SI/CI", "Total"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true, true
+                false, false, false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -137,13 +96,8 @@ public class DisplayRecord extends javax.swing.JFrame
             }
         });
 
-        full_data_report_btn.setText("Full data Report");
+        full_data_report_btn.setText("Full data report");
         full_data_report_btn.setEnabled(false);
-        full_data_report_btn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                full_data_report_btnActionPerformed(evt);
-            }
-        });
 
         back_btn.setText("Back");
         back_btn.addActionListener(new java.awt.event.ActionListener() {
@@ -164,31 +118,30 @@ public class DisplayRecord extends javax.swing.JFrame
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1172, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(150, 150, 150)
-                        .addComponent(delete_btn)
-                        .addGap(72, 72, 72)
-                        .addComponent(update_btn)
-                        .addGap(67, 67, 67)
-                        .addComponent(data_report_btn)
-                        .addGap(78, 78, 78)
-                        .addComponent(full_data_report_btn)
-                        .addGap(94, 94, 94)
-                        .addComponent(back_btn)
-                        .addGap(85, 85, 85)
-                        .addComponent(home_btn)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(delete_btn)
+                .addGap(84, 84, 84)
+                .addComponent(update_btn)
+                .addGap(92, 92, 92)
+                .addComponent(data_report_btn)
+                .addGap(119, 119, 119)
+                .addComponent(full_data_report_btn)
+                .addGap(130, 130, 130)
+                .addComponent(back_btn)
+                .addGap(92, 92, 92)
+                .addComponent(home_btn)
+                .addContainerGap(165, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(124, 124, 124)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 155, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(delete_btn)
                     .addComponent(update_btn)
@@ -196,196 +149,51 @@ public class DisplayRecord extends javax.swing.JFrame
                     .addComponent(full_data_report_btn)
                     .addComponent(back_btn)
                     .addComponent(home_btn))
-                .addContainerGap(192, Short.MAX_VALUE))
+                .addGap(141, 141, 141))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void setResultSet(ResultSet rs, Connect connect, ArrayList days, ArrayList offdays, String month, String year)
+    {
+        this.rs = rs;
+        this.connect = connect;
+        this.days = days;
+        this.offdays = offdays;
+        this.month = month;
+        this.year = year;
+    }
+    
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-
+        
         new Thread(new Runnable()
         {
             public void run()
             {
-                int spent_id = -1;
-                boolean off_days_match = false;
-                boolean days_match = false;
-                boolean spent_match = false;
-                Set<Integer> spent_set = new HashSet();
-                
+                List<Thing> al = new ArrayList();
                 try 
                 {
                     do
                     {
-                        if(rs1_flag == true)
-                        {    
-                            rs1_flag = false;
-                            
-                            if(!offdays.isEmpty())
-                            {
-                                for (Integer offday : offdays) 
-                                {
-                                    if(new Date(rs1.getString("date1")).getDay() == offday)
-                                    {
-                                        off_days_match = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            
-                            if(off_days_match == false && !days.isEmpty())
-                            {
-                                for (Integer day : days) 
-                                {
-                                    if(new Date(rs1.getString("date1")).getDate() == day)
-                                    {
-                                        days_match = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            
-                            if(off_days_match == false && days_match == false)
-                            {
-                                Thing thing = new Thing(rs1.getInt("id"),rs1.getString("name1"),rs1.getString("f_name"),rs1.getString("address")
-                                ,rs1.getString("city"),rs1.getInt("zip"),rs1.getString("thing"),rs1.getString("type"),rs1.getInt("n_gold"),rs1.getInt("n_silver")
-                                ,rs1.getInt("n_total"),rs1.getInt("interest"),rs1.getString("phone_no"),rs1.getString("date1"),rs1.getInt("n_gold")
-                                ,rs1.getInt("n_silver"),rs1.getInt("rupess"),rs1.getInt("invest"),rs1.getString("date2"),rs1.getString("description"),"table1");
-                                al.add(thing);
-                            
-                                if(!spent_set.isEmpty())
-                                {
-                                    for(Integer i : spent_set)
-                                    {
-                                        if(i == new Date(rs1.getString("date1")).getDate())
-                                        {
-                                            spent_match = true;
-                                        }
-                                    }
-                                }
-                                if(spent_match == false)
-                                {
-                                    if(new Date(rs1.getString("date1")).getDay() == 0 || new Date(rs1.getString("date1")).getDay() == 4)
-                                    {
-                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
-                                        ,"",rs1.getString("date1"),0,0,100,0,"","","*****");
-                                        spent_id--;
-                                        al.add(spent_thing);
-                                    }
-                                    else
-                                    {
-                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
-                                        ,"",rs1.getString("date1"),0,0,50,0,"","","*****");
-                                        spent_id--;
-                                        al.add(spent_thing);
-                                    }
-                                }
-
-                                
-                                spent_set.add(new Date(rs1.getString("date1")).getDate());
-                                spent_match = false;
-                            }
-                            
-                            off_days_match = false;
-                            days_match = false;
-                            
-                            if(rs1.next())
-                            {
-                                rs1_flag = true;
-                            }
-                        }
+                        Thing thing = new Thing(rs.getInt("id"),rs.getString("name1"),rs.getString("f_name"),rs.getString("address"),rs.getString("city")
+                        ,rs.getInt("zip"),rs.getString("thing"),rs.getString("type"),rs.getInt("n_gold"),rs.getInt("n_silver"),rs.getInt("n_total")
+                        ,rs.getInt("interest"),rs.getString("phone_no"),rs.getString("date1"),rs.getInt("g_gold"),rs.getInt("g_silver"),rs.getInt("rupess")
+                        ,rs.getInt("invest"),rs.getString("date2"),rs.getString("description"),rs.getInt("rupess2"),rs.getString("date3"),"table2");
                         
-                        if(rs2_flag == true)
-                        {
-                            rs2_flag = false;
-                            
-                            if(!offdays.isEmpty())
-                            {
-                                for (Integer offday : offdays) 
-                                {
-                                    if(new Date(rs2.getString("date1")).getDay() == offday)
-                                    {
-                                        off_days_match = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            
-                            if(off_days_match == false && !days.isEmpty())
-                            {
-                                for (Integer day : days) 
-                                {
-                                    if(new Date(rs2.getString("date1")).getDate() == day)
-                                    {
-                                        days_match = true;
-                                        break;
-                                    }
-                                }
-                            }
-                                
-                            if(off_days_match == false && days_match == false)
-                            {
-                                Thing thing1 = new Thing(rs2.getInt("id"),rs2.getString("name1"),rs2.getString("f_name"),rs2.getString("address")
-                                ,rs2.getString("city"),rs2.getInt("zip"),rs2.getString("thing"),rs2.getString("type"),rs2.getInt("n_gold"),rs2.getInt("n_silver")
-                                ,rs2.getInt("n_total"),rs2.getInt("interest"),rs2.getString("phone_no"),rs2.getString("date1"),rs2.getInt("n_gold")
-                                ,rs2.getInt("n_silver"),rs2.getInt("rupess"),rs2.getInt("invest"),rs2.getString("date2"),rs2.getString("description")
-                                ,rs2.getInt("rupess2"),rs2.getString("date3"),"table2");
-                                al.add(thing1);
-                                
-                                if(!spent_set.isEmpty())
-                                {
-                                    for(Integer i : spent_set)
-                                    {
-                                        if(i == new Date(rs2.getString("date1")).getDate())
-                                        {
-                                            spent_match = true;
-                                        }
-                                    }
-                                }
-                                if(spent_match == false)
-                                {
-                                    if(new Date(rs1.getString("date1")).getDay() == 0 || new Date(rs1.getString("date1")).getDay() == 4)
-                                    {
-                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
-                                        ,"",rs2.getString("date1"),0,0,100,0,"","","*****");
-                                        spent_id--;
-                                        al.add(spent_thing);
-                                    }
-                                    else
-                                    {
-                                        Thing spent_thing = new Thing(spent_id,"ghar kharch","*****","*****","*****",242301,"ghar kharch","",0,0,0,0
-                                        ,"",rs2.getString("date1"),0,0,50,0,"","","*****");
-                                        spent_id--;
-                                        al.add(spent_thing);
-                                    }
-                                }
-                                
-                                spent_set.add(new Date(rs2.getString("date1")).getDate());
-                                spent_match = false;
-                                
-                            }
-                            
-                            off_days_match = false;
-                            days_match = false;    
-                            
-                            if(rs2.next())
-                            {
-                                rs2_flag = true;
-                            }
-                        }
-                    }while(rs1_flag == true || rs2_flag == true);
-                    
+                        al.add(thing);
+                    }while(rs.next());
                 }
                 catch (SQLException ex) 
                 {
-                    Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DisplayDeletedRecord.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
                 Collections.sort(al);
                 
-                Object[] obj = new Object[8];
+                Object obj[] = new Object[11];
                 DefaultTableModel model1 = (DefaultTableModel)jTable1.getModel();
+                String data[];
                 
                 for(int i=0;i<al.size();i++)
                 {
@@ -396,7 +204,13 @@ public class DisplayRecord extends javax.swing.JFrame
                     obj[4] = al.get(i).getThing();
                     obj[5] = al.get(i).getRupess();
                     obj[6] = al.get(i).getDate1();
-                    obj[7] = al.get(i).getTable();
+                    obj[7] = al.get(i).getDate3();
+                    
+                    data = Thing.dateDifference(al.get(i).getDate1(), 1.15f, al.get(i).getRupess(), al.get(i).getDate3());
+                    
+                    obj[8] = data[0];
+                    obj[9] = data[1];
+                    obj[10] = al.get(i).getRupess() + Integer.parseInt(data[1]);
                     
                     model1.addRow(obj);
                 }
@@ -409,6 +223,9 @@ public class DisplayRecord extends javax.swing.JFrame
                 obj[5] = "";
                 obj[6] = "";
                 obj[7] = "";
+                obj[8] = "";
+                obj[9] = "";
+                obj[10] = "";
                 
                 model1.addRow(obj);
                 model1.addRow(obj);
@@ -422,6 +239,9 @@ public class DisplayRecord extends javax.swing.JFrame
                 obj[5] = "";
                 obj[6] = "";
                 obj[7] = "";
+                obj[8] = "";
+                obj[9] = "";
+                obj[10] = "";
                 
                 model1.addRow(obj);
                 
@@ -446,8 +266,6 @@ public class DisplayRecord extends javax.swing.JFrame
                             
                             id = Integer.parseInt(model1.getValueAt(model.getMinSelectionIndex(),0)+"");
                             row = model.getMinSelectionIndex();
-                            table = model1.getValueAt(model.getMinSelectionIndex(),7)+"";
-                            
                         }
                         else
                         {
@@ -459,6 +277,7 @@ public class DisplayRecord extends javax.swing.JFrame
                     }
                     
                 });
+                
             }
         }).start();
         
@@ -467,28 +286,28 @@ public class DisplayRecord extends javax.swing.JFrame
     private void home_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_home_btnActionPerformed
 
         new Thread(new Runnable()
-        {
-            public void run()
             {
-                new Home().setVisible(true);
-                connect.closeConnection();
-                dispose();
-            }
-        }).start();
+                public void run()
+                {
+                    new Home().setVisible(true);
+                    connect.closeConnection();
+                    dispose();
+                }
+            }).start();
         
     }//GEN-LAST:event_home_btnActionPerformed
 
     private void back_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_back_btnActionPerformed
 
         new Thread(new Runnable()
-        {
-            public void run()
             {
-                new AddRecord().setVisible(true);
-                connect.closeConnection();
-                dispose();
-            }
-        }).start();
+                public void run()
+                {
+                    new ReleaseRecord().setVisible(true);
+                    connect.closeConnection();
+                    dispose();
+                }
+            }).start();
         
     }//GEN-LAST:event_back_btnActionPerformed
 
@@ -502,20 +321,20 @@ public class DisplayRecord extends javax.swing.JFrame
                 
                 try 
                 {
-                    rs = connect.getThing(id,table);
+                    rs = connect.getThing(id,"table2");
                     if(rs.next())
                     {
                         
                     }
                     else
                     {
-                        JOptionPane.showMessageDialog(DisplayRecord.this, "Record not found");
+                        JOptionPane.showMessageDialog(DisplayDeletedRecord.this, "Record not found");
                         return;
                     }
                 }
                 catch (SQLException ex) 
                 {
-                    JOptionPane.showMessageDialog(DisplayRecord.this, "Something went wrong please try again later");
+                    JOptionPane.showMessageDialog(DisplayDeletedRecord.this, "Something went wrong please try again later");
                     return;
                 }
                 
@@ -904,6 +723,42 @@ public class DisplayRecord extends javax.swing.JFrame
                 description_c1.setBackgroundColor(com.itextpdf.kernel.colors.Color.convertCmykToRgb(DeviceCmyk.CYAN), .10f);
                 table1.addCell(description_c1);
                 
+                Cell r_rupess_c = new Cell();
+                r_rupess_c.add(new Paragraph("Release rupess").setBold());
+                r_rupess_c.setBorder(Border.NO_BORDER);
+                r_rupess_c.setTextAlignment(TextAlignment.CENTER);
+                r_rupess_c.setBackgroundColor(com.itextpdf.kernel.colors.Color.convertCmykToRgb(DeviceCmyk.CYAN), .10f);
+                table1.addCell(r_rupess_c);
+                
+                Cell r_rupess_c1 = new Cell();
+                try {
+                    r_rupess_c1.add(new Paragraph(rs.getInt("rupess2")+""));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                r_rupess_c1.setBorder(Border.NO_BORDER);
+                r_rupess_c1.setTextAlignment(TextAlignment.CENTER);
+                r_rupess_c1.setBackgroundColor(com.itextpdf.kernel.colors.Color.convertCmykToRgb(DeviceCmyk.CYAN), .10f);
+                table1.addCell(r_rupess_c1);
+                
+                Cell release_date_c = new Cell();
+                release_date_c.add(new Paragraph("Release date").setBold());
+                release_date_c.setBorder(Border.NO_BORDER);
+                release_date_c.setTextAlignment(TextAlignment.CENTER);
+                release_date_c.setBackgroundColor(com.itextpdf.kernel.colors.Color.convertCmykToRgb(DeviceCmyk.CYAN), .10f);
+                table1.addCell(release_date_c);
+                
+                Cell release_date_c1 = new Cell();
+                try {
+                    release_date_c1.add(new Paragraph(rs.getString("date3")+""));
+                } catch (SQLException ex) {
+                    Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                release_date_c1.setBorder(Border.NO_BORDER);
+                release_date_c1.setTextAlignment(TextAlignment.CENTER);
+                release_date_c1.setBackgroundColor(com.itextpdf.kernel.colors.Color.convertCmykToRgb(DeviceCmyk.CYAN), .10f);
+                table1.addCell(release_date_c1);
+                
                 document.add(table1);
                 document.close();
                 
@@ -921,71 +776,6 @@ public class DisplayRecord extends javax.swing.JFrame
         
     }//GEN-LAST:event_data_report_btnActionPerformed
 
-    private void full_data_report_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_full_data_report_btnActionPerformed
-
-        new Thread(new Runnable()
-        {
-            public void run()
-            {
-                File f1 = new File(year+"/Add record");
-                f1.mkdirs();
-                
-                String file_name = year+"/Add record/"+month+".pdf";
-                
-                PdfWriter writer = null;
-                
-                try 
-                {
-                  writer = new PdfWriter(file_name);
-                }
-                catch (FileNotFoundException ex) 
-                {
-                   //Logger.getLogger(Chat.class.getName()).log(Level.SEVERE, null, ex);
-                }
-        
-                PdfDocument pdfDoc=new PdfDocument(writer);
-        
-                Document document = new Document(pdfDoc);
-                int date=0;
-                
-                for(int i=0;i<al.size();i++)
-                {
-                    if(al.get(i).getId() <= 0)
-                    {
-                        document.add(new Paragraph(al.get(i).getRupess() + "/   Ghar kharch"));
-                        document.add(new Paragraph(al.get(id).getDate1()));
-                        continue;
-                    }
-                    document.add(new Paragraph(al.get(i).getRupess() + "/   " + al.get(i).getName() + " s/o " + al.get(i).getF_name() + " , " + al.get(i).getAddress()));
-                    document.add(new Paragraph(al.get(i).getThing() + " weight = "));
-                    document.add(new Paragraph(al.get(i).getDate1()));
-                    
-                    if(new Date(al.get(i).getDate1()).getDate() == date || date == 0)
-                    {
-                        document.add(new Paragraph("-------------------------------------------------------------------------------------------------"));
-                    }
-                    else
-                    {
-                        document.add(new Paragraph("**************************************************************************************************"));
-                    }
-                    date = new Date(al.get(i).getDate1()).getDate();
-                }
-                
-                document.close();
-                
-                try 
-                {
-                    Desktop.getDesktop().open(new File(file_name));
-                }
-                catch (IOException ex) 
-                {
-                    Logger.getLogger(DisplayRecord.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }).start();
-        
-    }//GEN-LAST:event_full_data_report_btnActionPerformed
-
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -1000,20 +790,20 @@ public class DisplayRecord extends javax.swing.JFrame
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DisplayRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayDeletedRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DisplayRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayDeletedRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DisplayRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayDeletedRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DisplayRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayDeletedRecord.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DisplayRecord().setVisible(true);
+                new DisplayDeletedRecord().setVisible(true);
             }
         });
     }
